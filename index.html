@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Berger Fest Anmeldung</title>
+  <meta name="description" content="Anmeldung zum Berger Fest am 24. Oktober 2026." />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <h1 class="hero-title" id="js-event-title"></h1>
+      <p class="hero-date" id="js-event-date"></p>
+      <p class="hero-greeting" id="js-greeting-body"></p>
+    </header>
+
+    <section class="info-accordion" id="js-info-accordion" aria-label="Informationen zum Fest">
+      <!-- <details class="info-section"> Elemente werden von assets/app.js aus assets/config.js befüllt -->
+    </section>
+
+    <form id="rsvp-form" novalidate>
+      <!-- Honeypot gegen Bots: für Menschen unsichtbar, muss leer bleiben -->
+      <div class="honeypot" aria-hidden="true">
+        <label for="website">Bitte leer lassen</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="field-group" id="email-field-group">
+        <label for="email" class="field-label" id="js-email-label"></label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="text-input"
+          required
+          autocomplete="email"
+          inputmode="email"
+          enterkeyhint="next"
+          aria-describedby="js-email-hint email-error"
+        />
+        <p class="field-hint" id="js-email-hint"></p>
+        <p class="field-error" id="email-error" role="alert" hidden></p>
+      </div>
+
+      <div class="persons-section">
+        <div class="persons-table-head" role="presentation">
+          <span>Name</span>
+          <span>Kommt</span>
+          <span>Menü</span>
+          <span>Allergien</span>
+          <span class="sr-only">Entfernen</span>
+        </div>
+
+        <div id="persons-container" class="persons-container">
+          <!-- Personen-Fieldsets werden von assets/app.js aus #person-template geklont -->
+        </div>
+
+        <button type="button" id="add-person-btn" class="add-person-btn">
+          <span id="js-add-person-label"></span>
+        </button>
+        <p class="add-person-hint" id="js-add-person-hint"></p>
+      </div>
+
+      <div class="field-group">
+        <label for="note" class="field-label" id="js-note-label"></label>
+        <textarea id="note" name="note" class="text-input" rows="3" enterkeyhint="done"></textarea>
+      </div>
+
+      <p class="summary-bar" id="submission-summary" aria-live="polite"></p>
+
+      <div class="form-errors" id="form-errors" role="alert" hidden></div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <span id="js-submit-label"></span>
+      </button>
+    </form>
+
+    <div class="success-card" id="success-card" hidden>
+      <h2 id="success-heading"></h2>
+      <p id="success-body"></p>
+      <button type="button" id="edit-again-btn" class="link-btn"></button>
+    </div>
+
+    <div class="error-card" id="submit-error-card" hidden>
+      <h2 id="error-heading"></h2>
+      <p id="error-body"></p>
+      <p id="error-contact"></p>
+      <button type="button" id="retry-btn" class="btn-primary"></button>
+    </div>
+  </div>
+
+  <!-- Vorlage für einen Personen-Block; wird per JS geklont, damit Radio-Namen
+       (status-<idx>) beim Hinzufügen nicht kollidieren. -->
+  <template id="person-template">
+    <fieldset class="person" data-person>
+      <legend class="person-legend">
+        <span data-person-index></span><span data-person-name-preview></span>
+      </legend>
+
+      <div class="person-cell person-cell-name">
+        <label class="field-label" data-label="name"></label>
+        <input
+          type="text"
+          class="text-input"
+          data-field="name"
+          autocomplete="name"
+          enterkeyhint="next"
+          required
+        />
+      </div>
+
+      <div class="person-cell person-cell-status">
+        <span class="field-label" data-label="status"></span>
+        <div class="status-toggle" data-status-group>
+          <label class="status-option status-option-yes">
+            <input type="radio" data-field="status" value="ja" />
+            <span class="status-option-icon" aria-hidden="true">✓</span>
+            <span data-status-yes-label></span>
+          </label>
+          <label class="status-option status-option-no">
+            <input type="radio" data-field="status" value="nein" />
+            <span class="status-option-icon" aria-hidden="true">✗</span>
+            <span data-status-no-label></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="person-cell person-cell-menu" data-menu-cell>
+        <span class="field-label" data-label="menu"></span>
+        <div class="menu-toggle" data-menu-group></div>
+      </div>
+
+      <div class="person-cell person-cell-allergies" data-allergy-cell>
+        <label class="field-label" data-label="allergies"></label>
+        <input type="text" class="text-input" data-field="allergies" autocomplete="off" />
+      </div>
+
+      <button type="button" class="remove-person-btn" data-remove-person>
+        <span aria-hidden="true">✕</span>
+        <span class="remove-label-text" data-remove-label></span>
+      </button>
+    </fieldset>
+  </template>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
