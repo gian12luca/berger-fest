@@ -567,6 +567,11 @@
     }).then(function (res) {
       if (!res.ok) throw new Error("HTTP " + res.status);
       return res.json();
+    }).then(function (data) {
+      if (!data || data.ok !== true) {
+        throw new Error("Apps-Script-Fehler: " + (data && data.error));
+      }
+      return data;
     });
   }
 

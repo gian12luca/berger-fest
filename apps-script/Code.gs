@@ -157,11 +157,6 @@ function appendToSheet_(payload) {
       true,
       payload.submissionId || "",
     ]);
-
-    var lastRow = sheet.getLastRow();
-    var countsCell = sheet.getRange(lastRow, 8);
-    countsCell.insertCheckboxes();
-    countsCell.setValue(true);
   });
 }
 
