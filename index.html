@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
-  <title>Berger Fest Anmeldung</title>
+  <title>Anmeldung Berger-Fest</title>
   <meta name="description" content="Anmeldung zum Berger Fest am 24. Oktober 2026." />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
@@ -13,7 +13,7 @@
     <header class="hero">
       <h1 class="hero-title" id="js-event-title"></h1>
       <p class="hero-date" id="js-event-date"></p>
-      <p class="hero-greeting" id="js-greeting-body"></p>
+      <div class="hero-greeting" id="js-greeting-body"></div>
     </header>
 
     <section class="info-accordion" id="js-info-accordion" aria-label="Informationen zum Fest">
@@ -27,6 +27,8 @@
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
       </div>
 
+      <div class="required-fields-note" id="js-required-fields-note"></div>
+
       <div class="field-group" id="family-stem-field-group">
         <label for="family-stem" class="field-label" id="js-family-stem-label"></label>
         <select
@@ -34,10 +36,9 @@
           name="familyStem"
           class="text-input"
           required
-          aria-describedby="js-family-stem-hint family-stem-error"
+          aria-describedby="family-stem-error"
         >
         </select>
-        <p class="field-hint" id="js-family-stem-hint"></p>
         <p class="field-error" id="family-stem-error" role="alert" hidden></p>
       </div>
 

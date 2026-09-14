@@ -41,14 +41,24 @@
   // ---------------------------------------------------------------------
 
   function renderStaticText() {
-    document.title = CFG.event.name + " Anmeldung";
+    document.title = "Anmeldung Berger-Fest";
     document.getElementById("js-event-title").textContent = CFG.greeting.heading;
     document.getElementById("js-event-date").textContent =
       CFG.event.dateDisplay + " · " + CFG.event.timeDisplay;
-    document.getElementById("js-greeting-body").textContent = CFG.greeting.body;
+    var greetingEl = document.getElementById("js-greeting-body");
+    CFG.greeting.body.split("\n\n").forEach(function (paragraph) {
+      var p = document.createElement("p");
+      appendTextWithMailtoLinks(p, paragraph);
+      greetingEl.appendChild(p);
+    });
 
+    var requiredNoteEl = document.getElementById("js-required-fields-note");
+    CFG.copy.requiredFieldsNote.split("\n\n").forEach(function (paragraph) {
+      var p = document.createElement("p");
+      p.textContent = paragraph;
+      requiredNoteEl.appendChild(p);
+    });
     document.getElementById("js-family-stem-label").textContent = CFG.copy.familyStemLabel;
-    document.getElementById("js-family-stem-hint").textContent = CFG.copy.familyStemHint;
 
     document.getElementById("js-email-label").textContent = CFG.copy.emailLabel;
     document.getElementById("js-email-hint").textContent = CFG.copy.emailHint;
@@ -142,6 +152,42 @@
     });
   }
 
+  var EMAIL_PATTERN = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/;
+
+  // Erlaubt einfaches **fett** in Section-Texten und verlinkt E-Mail-Adressen
+  // automatisch als mailto:-Link, ohne echtes HTML zuzulassen.
+  function appendRichText(el, text) {
+    text.split(/(\*\*[^*]+\*\*)/g).forEach(function (part) {
+      if (!part) return;
+      if (part.slice(0, 2) === "**" && part.slice(-2) === "**") {
+        var strong = document.createElement("strong");
+        strong.textContent = part.slice(2, -2);
+        el.appendChild(strong);
+      } else {
+        appendTextWithMailtoLinks(el, part);
+      }
+    });
+  }
+
+  function appendTextWithMailtoLinks(el, text) {
+    var lastIndex = 0;
+    var match;
+    var pattern = new RegExp(EMAIL_PATTERN.source, "g");
+    while ((match = pattern.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        el.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+      var link = document.createElement("a");
+      link.href = "mailto:" + match[0];
+      link.textContent = match[0];
+      el.appendChild(link);
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) {
+      el.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+  }
+
   function renderAccordion() {
     var container = document.getElementById("js-info-accordion");
     CFG.sections.forEach(function (section) {
@@ -149,12 +195,27 @@
       details.className = "info-section";
 
       var summary = document.createElement("summary");
-      summary.textContent = section.title;
+      var summaryTitleWrap = document.createElement("span");
+      summaryTitleWrap.className = "info-section-title-wrap";
+
+      var summaryTitle = document.createElement("span");
+      summaryTitle.className = "info-section-title";
+      summaryTitle.textContent = section.title;
+      summaryTitleWrap.appendChild(summaryTitle);
+
+      if (section.hint) {
+        var summaryHint = document.createElement("span");
+        summaryHint.className = "info-section-hint";
+        summaryHint.textContent = " – " + section.hint;
+        summaryTitleWrap.appendChild(summaryHint);
+      }
+
+      summary.appendChild(summaryTitleWrap);
 
       var body = document.createElement("div");
       body.className = "info-section-body";
       var p = document.createElement("p");
-      p.textContent = section.body;
+      appendRichText(p, section.body);
       body.appendChild(p);
 
       if (section.showMap && CFG.event.location && CFG.event.location.address) {
@@ -205,9 +266,9 @@
     fieldset.querySelector("[data-person-index]").textContent = "Person " + idx;
     var namePreview = fieldset.querySelector("[data-person-name-preview]");
 
-    fieldset.querySelector('[data-label="name"]').textContent = "Name";
-    fieldset.querySelector('[data-label="status"]').textContent = "Kommt";
-    fieldset.querySelector('[data-label="menu"]').textContent = "Menü";
+    fieldset.querySelector('[data-label="name"]').textContent = "Name *";
+    fieldset.querySelector('[data-label="status"]').textContent = "Kommt *";
+    fieldset.querySelector('[data-label="menu"]').textContent = "Menü *";
     fieldset.querySelector('[data-label="allergies"]').textContent = "Allergien";
 
     var nameInput = fieldset.querySelector('[data-field="name"]');

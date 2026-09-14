@@ -27,9 +27,8 @@ window.BERGER_FEST_CONFIG = {
     // "Z"), damit Kalender-Apps es als lokale Uhrzeit übernehmen.
     startIso: "2026-10-24T17:30:00",
     durationHours: 6,
-    // TODO: Anmeldeschluss festlegen
-    rsvpDeadlineIso: "2026-10-10",
-    rsvpDeadlineDisplay: "10. Oktober 2026",
+    rsvpDeadlineIso: "2026-10-08",
+    rsvpDeadlineDisplay: "8. Oktober 2026",
     location: {
       name: "Restaurant Safran Zunft",
       address: "Gerbergasse 11, 4001 Basel",
@@ -39,24 +38,30 @@ window.BERGER_FEST_CONFIG = {
 
   // ---- Begrüßungstext (oberhalb des Formulars) ----
   greeting: {
-    heading: "Wir feiern das Berger Fest und freuen uns auf dich!",
+    heading: "Anmeldung Berger-Fest",
     body:
-      "Am 24. Oktober 2026 kommt die Familie zusammen. Melde dich und alle, " +
-      "die mit dir kommen, hier gleich an. Das dauert nur ein paar Minuten. " +
-      "Egal ob du für dich allein oder gleich für die ganze Familie ausfüllst: " +
-      "beides passt.",
+      "Am 24. Oktober 2026 kommt die Familie zusammen.\n\n" +
+      "Melde dich und alle, die mit dir kommen, hier gleich an. Das dauert " +
+      "nur ein paar Minuten. Egal ob du für dich allein oder gleich für die " +
+      "ganze Familie ausfüllst: beides passt.\n\n" +
+      "Bei Fragen zur Anmeldung schreib an gian.berger.ch@gmail.com.",
   },
 
   // ---- Accordion-Inhalte ----
-  // Aktuell nur ein Platzhalter-Feld — Infos zu Ort, Zeitplan, Anfahrt etc.
-  // kommen später dazu, sobald sie feststehen.
   sections: [
     {
       id: "info",
       title: "Info",
+      hint: "zum Aufklappen anklicken",
       body:
-        "Hier kann man noch Info hinzufügen. Zum Beispiel den Ort: " +
-        "Restaurant Safran Zunft, Gerbergasse 11, 4001 Basel.",
+        "Restaurant Safran Zunft, Gerbergasse 11, 4001 Basel.\n\n" +
+        "**Ablauf:**\n" +
+        "17.30 Uhr – Eintreffen der Gäste und Apéro\n" +
+        "18.00 Uhr – Konzert der Gruppe Cinquecento\n" +
+        "18.40 Uhr – Apéro\n" +
+        "19.15 Uhr – Nachtessen\n\n" +
+        "Eingeladen sind alle Mitglieder der Berger-Familie mit Partnerin " +
+        "oder Partner (alle ab dem 18. Altersjahr).",
       showMap: true,
       showIcsButton: true,
     },
@@ -95,15 +100,17 @@ window.BERGER_FEST_CONFIG = {
 
   // ---- Sonstige Texte ----
   copy: {
-    familyStemLabel: "Familienstamm",
-    familyStemHint: "Von welchem der zehn Geschwister stammt deine Familie ab?",
+    requiredFieldsNote:
+      "Felder mit einem Stern (*) sind Pflichtfelder.\n\n" +
+      "Bitte alle ausfüllen – das macht uns die Planung leichter.",
+    familyStemLabel: "Familienstamm *",
     familyStemPlaceholder: "Bitte wählen",
-    emailLabel: "Deine E-Mail-Adresse",
+    emailLabel: "Deine E-Mail-Adresse *",
     emailHint: "Für die Bestätigung.",
     noteLabel: "Anmerkungen (optional)",
     notePlaceholder: "z. B. späterer Ankunftszeitpunkt, Fragen ...",
     addPersonPrompt: "Meldest du noch jemanden mit an?",
-    calendarIcsLabel: "ICS-Datei",
+    calendarIcsLabel: "Termin in Kalender speichern",
     addPersonButton: "+ Weitere Person hinzufügen",
     submitButton: "Anmeldung absenden",
     submitButtonLoading: "Wird gesendet …",

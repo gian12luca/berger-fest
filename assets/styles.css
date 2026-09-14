@@ -189,7 +189,20 @@ body {
   font-size: var(--font-size-md);
   color: var(--color-ink);
   max-width: 62ch;
-  margin: 0;
+}
+
+.hero-greeting p {
+  margin: 0 0 var(--space-4);
+}
+
+.hero-greeting p:last-child {
+  margin-bottom: 0;
+}
+
+.hero-greeting a,
+.info-section-body a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 
@@ -219,6 +232,22 @@ body {
   list-style: none;
 }
 
+.info-section-title-wrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info-section-title {
+  text-decoration: underline;
+}
+
+.info-section-hint {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-ink-muted);
+}
+
 .info-section > summary::-webkit-details-marker {
   display: none;
 }
@@ -244,6 +273,7 @@ body {
 
 .info-section-body p {
   margin: 0;
+  white-space: pre-line;
 }
 
 .info-section-map {
@@ -295,6 +325,20 @@ body {
   font-size: var(--font-size-sm);
   color: var(--color-ink-muted);
   margin: var(--space-2) 0 0;
+}
+
+.required-fields-note {
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.required-fields-note p {
+  margin: 0 0 var(--space-2);
+}
+
+.required-fields-note p:last-child {
+  margin-bottom: 0;
 }
 
 .field-error {
