@@ -24,12 +24,12 @@ var SHEET_NAME = "Anmeldungen";
 // Muss mit assets/config.js -> menus übereinstimmen (nur für die Texte in
 // der Bestätigungsmail).
 var MENU_LABELS = {
-  alles: "Alles (Fleisch/Fisch)",
-  vegi_mit_fisch: "Vegi mit Fisch",
-  vegi_ohne_fisch: "Vegi ohne Fisch",
+  alles: "Alles (Fleisch)",
+  vegetarisch: "Vegetarisch",
 };
 
 var HEADER_ROW = [
+  "Familienstamm",
   "E-Mail",
   "Name",
   "Status",
@@ -40,6 +40,10 @@ var HEADER_ROW = [
   "Zählt",
   "Anmeldung-ID",
 ];
+
+// Spaltenindex (1-basiert) von "Zählt" in HEADER_ROW — als Checkbox
+// formatiert, nicht nur als TRUE/FALSE-Text.
+var ZAEHLT_COLUMN = 9;
 
 function doPost(e) {
   try {
@@ -83,13 +87,13 @@ function doPost(e) {
   }
 }
 
-// Spalte 9 = Anmeldung-ID (siehe HEADER_ROW). Bereits gespeicherte
+// Spalte 10 = Anmeldung-ID (siehe HEADER_ROW). Bereits gespeicherte
 // Submission-IDs werden beim erneuten Eintreffen übersprungen.
 function isDuplicateSubmission_(submissionId) {
   var sheet = getSheet_();
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return false;
-  var ids = sheet.getRange(2, 9, lastRow - 1, 1).getValues();
+  var ids = sheet.getRange(2, 10, lastRow - 1, 1).getValues();
   for (var i = 0; i < ids.length; i++) {
     if (ids[i][0] === submissionId) return true;
   }
@@ -147,6 +151,7 @@ function appendToSheet_(payload) {
     var menuLabel = p.menu ? MENU_LABELS[p.menu] || p.menu : "";
 
     sheet.appendRow([
+      payload.familyStem || "",
       payload.email,
       p.name,
       statusLabel,
@@ -157,6 +162,11 @@ function appendToSheet_(payload) {
       true,
       payload.submissionId || "",
     ]);
+
+    // appendRow schreibt "true" nur als Wert — ohne diese Zeile zeigt die
+    // Zelle je nach Sheet-/Tabellenformatierung TRUE/FALSE als Text statt
+    // einer anklickbaren Checkbox.
+    sheet.getRange(sheet.getLastRow(), ZAEHLT_COLUMN).insertCheckboxes();
   });
 }
 

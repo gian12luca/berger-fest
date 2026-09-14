@@ -21,6 +21,9 @@
   var submitLabel = document.getElementById("js-submit-label");
   var successCard = document.getElementById("success-card");
   var errorCard = document.getElementById("submit-error-card");
+  var familyStemSelect = document.getElementById("family-stem");
+  var familyStemFieldGroup = document.getElementById("family-stem-field-group");
+  var familyStemError = document.getElementById("family-stem-error");
   var emailInput = document.getElementById("email");
   var emailFieldGroup = document.getElementById("email-field-group");
   var emailError = document.getElementById("email-error");
@@ -43,6 +46,9 @@
     document.getElementById("js-event-date").textContent =
       CFG.event.dateDisplay + " · " + CFG.event.timeDisplay;
     document.getElementById("js-greeting-body").textContent = CFG.greeting.body;
+
+    document.getElementById("js-family-stem-label").textContent = CFG.copy.familyStemLabel;
+    document.getElementById("js-family-stem-hint").textContent = CFG.copy.familyStemHint;
 
     document.getElementById("js-email-label").textContent = CFG.copy.emailLabel;
     document.getElementById("js-email-hint").textContent = CFG.copy.emailHint;
@@ -118,6 +124,22 @@
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  }
+
+  function renderFamilyStemOptions() {
+    var placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = CFG.copy.familyStemPlaceholder;
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    familyStemSelect.appendChild(placeholder);
+
+    (CFG.familyStems || []).forEach(function (stem) {
+      var option = document.createElement("option");
+      option.value = stem;
+      option.textContent = stem;
+      familyStemSelect.appendChild(option);
+    });
   }
 
   function renderAccordion() {
@@ -391,6 +413,19 @@
 
   function validate() {
     var errors = [];
+    var familyStem = familyStemSelect.value;
+    familyStemFieldGroup.classList.remove("has-error");
+    familyStemError.hidden = true;
+
+    if (!familyStem) {
+      errors.push({
+        message: "Bitte wähle deinen Familienstamm aus.",
+        focus: familyStemSelect,
+        group: familyStemFieldGroup,
+        errorEl: familyStemError,
+      });
+    }
+
     var email = emailInput.value.trim();
     emailFieldGroup.classList.remove("has-error");
     emailError.hidden = true;
@@ -488,6 +523,7 @@
         return { name: p.name, status: p.status, menu: p.menu, allergies: p.allergies };
       });
       var draft = {
+        familyStem: familyStemSelect.value,
         email: emailInput.value,
         note: noteInput.value,
         persons: persons,
@@ -547,6 +583,7 @@
       token: CFG.token,
       submissionId: currentSubmissionId,
       clientTs: new Date().toISOString(),
+      familyStem: familyStemSelect.value,
       email: emailInput.value.trim(),
       note: noteInput.value.trim(),
       persons: persons,
@@ -712,6 +749,10 @@
   addPersonBtn.addEventListener("click", function () {
     addPerson();
   });
+  familyStemSelect.addEventListener("change", function () {
+    familyStemFieldGroup.classList.remove("has-error");
+    scheduleAutosave();
+  });
   emailInput.addEventListener("input", scheduleAutosave);
   noteInput.addEventListener("input", scheduleAutosave);
 
@@ -721,10 +762,12 @@
 
   function init() {
     renderStaticText();
+    renderFamilyStemOptions();
     renderAccordion();
 
     var draft = loadDraft();
     if (draft && Array.isArray(draft.persons) && draft.persons.length > 0) {
+      if (draft.familyStem) familyStemSelect.value = draft.familyStem;
       emailInput.value = draft.email || "";
       noteInput.value = draft.note || "";
       draft.persons.forEach(function (p) {

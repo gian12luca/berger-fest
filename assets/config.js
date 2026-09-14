@@ -22,10 +22,10 @@ window.BERGER_FEST_CONFIG = {
     name: "Berger Fest",
     dateIso: "2026-10-24",
     dateDisplay: "Samstag, 24. Oktober 2026",
-    timeDisplay: "ab 17:00 Uhr",
+    timeDisplay: "ab 17:30 Uhr",
     // Für den "Zum Kalender hinzufügen"-Link. Ohne Zeitzonen-Suffix (kein
     // "Z"), damit Kalender-Apps es als lokale Uhrzeit übernehmen.
-    startIso: "2026-10-24T17:00:00",
+    startIso: "2026-10-24T17:30:00",
     durationHours: 6,
     // TODO: Anmeldeschluss festlegen
     rsvpDeadlineIso: "2026-10-10",
@@ -66,9 +66,25 @@ window.BERGER_FEST_CONFIG = {
   // "value" ist der technische Schlüssel (wird 1:1 so im Sheet gespeichert),
   // "label" ist der sichtbare, ausgeschriebene Name.
   menus: [
-    { value: "alles", label: "Alles (Fleisch/Fisch)" },
-    { value: "vegi_mit_fisch", label: "Vegi mit Fisch" },
-    { value: "vegi_ohne_fisch", label: "Vegi ohne Fisch" },
+    { value: "alles", label: "Alles (Fleisch)" },
+    { value: "vegetarisch", label: "Vegetarisch" },
+  ],
+
+  // ---- Familienstämme ----
+  // Die 10 Geschwister der Großeltern-Generation, als Stammhalter der
+  // Familie. Jede Anmeldung wählt oben im Formular einen Stamm aus, damit
+  // sich die große Familie im Sheet zuordnen lässt.
+  familyStems: [
+    "Max",
+    "Paul",
+    "Fritz",
+    "Ernst",
+    "Elisabeth",
+    "Peter",
+    "Willi",
+    "Theres",
+    "Karl",
+    "Werner",
   ],
 
   // ---- Texte für Status-Auswahl ----
@@ -79,6 +95,9 @@ window.BERGER_FEST_CONFIG = {
 
   // ---- Sonstige Texte ----
   copy: {
+    familyStemLabel: "Familienstamm",
+    familyStemHint: "Von welchem der zehn Geschwister stammt deine Familie ab?",
+    familyStemPlaceholder: "Bitte wählen",
     emailLabel: "Deine E-Mail-Adresse",
     emailHint: "Für die Bestätigung.",
     noteLabel: "Anmerkungen (optional)",

@@ -32,13 +32,13 @@ Not a generic RSVP tool — purpose-built for one specific family event, tuned s
 
 ## Capabilities and Constraints
 
-- Registration captures, per submission: one required email address (no separate sender-name field), and one or more persons, each with name, attendance status (attending / not attending), menu choice (only when attending), allergy free text (only when attending), plus one free-text note per submission.
+- Registration captures, per submission: one required family-stem selection (dropdown, one of the ten founding siblings' names — used to sort the large extended family in the sheet), one required email address (no separate sender-name field), and one or more persons, each with name, attendance status (attending / not attending), menu choice (only when attending), allergy free text (only when attending), plus one free-text note per submission.
 - Attendance status has no pre-selected default.
 - Choosing "not attending" hides that person's menu and allergy fields.
 - Confirmation email sent to the submitting address after successful submission.
 - No automatic duplicate detection or merging — all submissions are appended; the host resolves duplicates manually via a checkbox in the sheet.
 - No server beyond Google Apps Script; must work around Apps Script's CORS/redirect behavior from a static page with no backend of its own.
-- Menu options are named dishes (not abbreviations) — three lines: "Alles" (meat/fish), "Vegi mit Fisch", "Vegi ohne Fisch".
+- Menu options — two lines, no fish on the menu: "Alles (Fleisch)", "Vegetarisch"; allergies are captured separately as free text.
 - Desktop/tablet layout renders as a table (one row per person); layout under 768px renders as flat, one-handed-usable cards. Same HTML, no duplicated markup.
 
 ## Brand Commitments

@@ -27,6 +27,20 @@
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
       </div>
 
+      <div class="field-group" id="family-stem-field-group">
+        <label for="family-stem" class="field-label" id="js-family-stem-label"></label>
+        <select
+          id="family-stem"
+          name="familyStem"
+          class="text-input"
+          required
+          aria-describedby="js-family-stem-hint family-stem-error"
+        >
+        </select>
+        <p class="field-hint" id="js-family-stem-hint"></p>
+        <p class="field-error" id="family-stem-error" role="alert" hidden></p>
+      </div>
+
       <div class="field-group" id="email-field-group">
         <label for="email" class="field-label" id="js-email-label"></label>
         <input
